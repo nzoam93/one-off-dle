@@ -7,6 +7,7 @@ export function generateShareText(guessesUsed) {
     guessResults.forEach(row => {
         result += row.join('') + '\n';
     });
-    console.log(result)
+
+    result += "\n You can play too at https://nzoam93.github.io/off-by-one-dle/"
     return result;
 }
