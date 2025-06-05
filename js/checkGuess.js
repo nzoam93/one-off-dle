@@ -96,6 +96,55 @@ export function checkGuess(){
         }
     }
 
+    //perform the offByOne stuff
+    if(!gameOver){
+        offByOne()
+    }
+
     //reset the guess array
     setCurrentGuess([]);
+}
+
+function offByOne(){
+    let randomNum = Math.floor(Math.random() * 5)
+    const square = document.getElementById(`square-${numberOfGuesses - 1}-${randomNum}`);
+    console.log('square', square)
+    console.log('currentguess', currentGuess)
+    const letter = currentGuess[randomNum];
+    console.log('letter', letter)
+    const keyButton = document.querySelector(`button[data-key="${letter}"]`);
+    console.log('keybutton', keyButton)
+    const randomOther = Math.floor(Math.random() * 2)
+    if (square.classList.contains("correct")){
+        square.classList.remove("correct");
+        keyButton.classList.remove("correct");
+        if (randomOther == 0){
+            keyButton.classList.add("half-right");
+            square.classList.add("half-right");
+        } else {
+            keyButton.classList.add("wrong");
+            square.classList.add("wrong")
+        }
+    }
+    else if (square.classList.contains("half-right")){
+        square.classList.remove("half-right");
+        keyButton.classList.remove("half-right");
+        if (randomOther == 0){
+            square.classList.add("correct");
+            keyButton.classList.add("correct");
+        } else {
+            square.classList.add("wrong");
+            keyButton.classList.add("wrong");
+        }
+    } else {
+        square.classList.remove("wrong");
+        keyButton.classList.remove("wrong");
+        if (randomOther == 0){
+            square.classList.add("correct");
+            keyButton.classList.add("correct");
+        } else {
+            square.classList.add("half-right");
+            keyButton.classList.add("half-right");
+        }
+    }
 }

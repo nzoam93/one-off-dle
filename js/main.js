@@ -66,6 +66,7 @@ function newGame(difficulty){
       const possibleAnswers = text.split('\n').map(word => word.trim().toUpperCase());
       let randomWord = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
       setSecretWord(randomWord.toUpperCase())
+      console.log(secretWord)
     })
   }
   else {
@@ -76,8 +77,10 @@ function newGame(difficulty){
       const possibleAnswers = text.split('\n').map(word => word.trim().toUpperCase());
       let randomWord = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
       setSecretWord(randomWord.toUpperCase());
+      console.log(secretWord)
     })
   }
+
 
   fetch('./word-bank.txt')
     .then(res => res.text())
