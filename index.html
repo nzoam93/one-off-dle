@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- added the above max-scale to prevent from tapping to zoom, which was annoying -->
+    <title>Wordle</title>
+    <script type="module" src="./js/main.js"></script>
+    <link rel="stylesheet" href="./styles.css"/>
+    <link rel="icon" href="./imgs/favicon.ico" type="image/x-icon" />
+</head>
+<body>
+    <h2 id="header">
+        Noam's Wordle
+    </h2>
+    <div id="infoScreen">
+        <p> Welcome to <strong>Noam's Wordle</strong></p>
+        <p>  <strong>Easy Mode: only includes normal Wordle answers</strong> <br>
+        <strong>Hard Mode: includes all valid English words</strong> </p>
+        <button class="newGameBtn easy infoScreenButton">New Game: Easy</button>
+        <button class="newGameBtn hard infoScreenButton">New Game: Hard</button>
+    </div>
+    <div id="custom-alert"></div>
+    <div id="game">
+        <div id="board-container">
+            <div id="board"></div>
+            <div id="keyboard"></div>
+        </div>
+        <!-- <div id="gameInfo"></div> -->
+        <div id="post-game-buttons-container">
+            <button id="shareBtn" style="display:none;">
+                Share
+                <img src="./imgs/share-icon.png" alt="Share">
+            </button>
+            <button class="newGameBtn easy postGameBtn" style="display: none;">New Game: Easy</button>
+            <button class="newGameBtn hard postGameBtn" style="display: none;">New Game: Hard</button>
+        </div>
+    </div>
+</body>
+</html>
