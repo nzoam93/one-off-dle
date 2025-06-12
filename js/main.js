@@ -2,7 +2,7 @@
 import { createBoard } from "./board.js";
 import { createKeyboard } from "./keyboard.js";
 import { handleKey } from "./handleKey.js";
-import {numRows, wordLength, setSecretWord, setDictionary, numberOfGuesses, secretWord, setCurrentGuess, setNumberOfGuesses, setGameOver, setGuessResults } from "./gameState.js";
+import {numRows, wordLength, setSecretWord, setDictionary, numberOfGuesses, secretWord, setCurrentGuess, setNumberOfGuesses, setGameOver, setGuessResults, setGameDifficulty } from "./gameState.js";
 import { generateShareText } from "./generateShareText.js";
 import { showAlert } from "./utils.js";
 
@@ -57,29 +57,21 @@ function newGame(difficulty){
   // reset to new game
   resetGameState()
 
+  // set difficulty
+  setGameDifficulty(difficulty);
+
   // choose a random word
-  if (difficulty === "easy"){
-    // just select from the easy words
-    fetch('./word-bank-answers.txt')
+  fetch('./word-bank-answers.txt')
     .then(res => res.text())
     .then(text => {
       const possibleAnswers = text.split('\n').map(word => word.trim().toUpperCase());
       let randomWord = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
       setSecretWord(randomWord.toUpperCase())
       console.log(secretWord)
-    })
-  }
-  else {
-    // select from all words
-    fetch('./word-bank.txt')
-    .then(res => res.text())
-    .then(text => {
-      const possibleAnswers = text.split('\n').map(word => word.trim().toUpperCase());
-      let randomWord = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
-      setSecretWord(randomWord.toUpperCase());
-      console.log(secretWord)
-    })
-  }
+  })
+
+
+
 
 
   fetch('./word-bank.txt')

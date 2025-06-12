@@ -1,4 +1,4 @@
-import {currentGuess, secretWord, wordLength, numberOfGuesses, dictionary, setCurrentGuess, setGameOver, setNumberOfGuesses, guessResults, gameOver } from "./gameState.js"
+import {currentGuess, secretWord, wordLength, numberOfGuesses, dictionary, setCurrentGuess, setGameOver, setNumberOfGuesses, guessResults, gameOver, gameDifficulty } from "./gameState.js"
 import { shakeRow, showAlert } from "./utils.js"
 
 //actions at the end of the game (regardless of win or lose)
@@ -98,53 +98,79 @@ export function checkGuess(){
 
     //perform the offByOne stuff
     if(!gameOver){
-        offByOne()
+        if(gameDifficulty === "easy"){
+            offByOneOnEasy()
+        } else {
+            offByOneHard();
+        }
     }
 
     //reset the guess array
     setCurrentGuess([]);
 }
 
-function offByOne(){
-    let randomNum = Math.floor(Math.random() * 5)
-    const square = document.getElementById(`square-${numberOfGuesses - 1}-${randomNum}`);
-    console.log('square', square)
-    console.log('currentguess', currentGuess)
-    const letter = currentGuess[randomNum];
-    console.log('letter', letter)
+// can change to any of the other options
+function offByOneHard() {
+    const randomIndex = Math.floor(Math.random() * wordLength);
+    const square = document.getElementById(`square-${numberOfGuesses - 1}-${randomIndex}`);
+    const letter = currentGuess[randomIndex];
+    console.log('letter changed: ', letter);
     const keyButton = document.querySelector(`button[data-key="${letter}"]`);
-    console.log('keybutton', keyButton)
-    const randomOther = Math.floor(Math.random() * 2)
-    if (square.classList.contains("correct")){
-        square.classList.remove("correct");
-        keyButton.classList.remove("correct");
-        if (randomOther == 0){
-            keyButton.classList.add("half-right");
-            square.classList.add("half-right");
-        } else {
-            keyButton.classList.add("wrong");
-            square.classList.add("wrong")
+    const states = ["correct", "half-right", "wrong"];
+
+    if (!square || !keyButton) return;
+
+    const currentState = states.find(state => square.classList.contains(state));
+    if (!currentState) return;
+
+    // Remove the current state classes
+    square.classList.remove(...states);
+    keyButton.classList.remove(...states);
+
+    // Get the two alternative states (excluding current one)
+    const alternatives = states.filter(state => state !== currentState);
+    const newState = alternatives[Math.floor(Math.random() * 2)];
+
+    // Apply the new state
+    square.classList.add(newState);
+    keyButton.classList.add(newState);
+}
+
+// doesn't change green ones
+function offByOneOnEasy() {
+    const states = ["correct", "half-right", "wrong"];
+    const rowIndex = numberOfGuesses - 1;
+
+    // Get all squares in the row that are not "correct"
+    const nonGreenSquares = [];
+    for (let i = 0; i < wordLength; i++) {
+        const square = document.getElementById(`square-${rowIndex}-${i}`);
+        if (square && !square.classList.contains("correct")) {
+            nonGreenSquares.push({ index: i, square });
         }
     }
-    else if (square.classList.contains("half-right")){
-        square.classList.remove("half-right");
-        keyButton.classList.remove("half-right");
-        if (randomOther == 0){
-            square.classList.add("correct");
-            keyButton.classList.add("correct");
-        } else {
-            square.classList.add("wrong");
-            keyButton.classList.add("wrong");
-        }
-    } else {
-        square.classList.remove("wrong");
-        keyButton.classList.remove("wrong");
-        if (randomOther == 0){
-            square.classList.add("correct");
-            keyButton.classList.add("correct");
-        } else {
-            square.classList.add("half-right");
-            keyButton.classList.add("half-right");
-        }
-    }
+
+    // If all are green or none found, do nothing
+    if (nonGreenSquares.length === 0) return;
+
+    // Choose one at random
+    const { index, square } = nonGreenSquares[Math.floor(Math.random() * nonGreenSquares.length)];
+    const letter = currentGuess[index];
+    console.log('letter changed: ', letter);
+    const keyButton = document.querySelector(`button[data-key="${letter}"]`);
+    if (!keyButton) return;
+
+    const currentState = states.find(state => square.classList.contains(state));
+    if (!currentState || currentState === "correct") return;
+
+    // Remove all color states
+    square.classList.remove(...states);
+    keyButton.classList.remove(...states);
+
+    // Choose a new state that isn't the current one or "correct"
+    const alternatives = states.filter(state => state !== currentState && state !== "correct");
+    const newState = alternatives[Math.floor(Math.random() * alternatives.length)];
+
+    square.classList.add(newState);
+    keyButton.classList.add(newState);
 }
