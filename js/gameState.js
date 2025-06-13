@@ -1,7 +1,8 @@
 export let currentGuess = [];
 export let gameOver = false;
+export let gameWon = false;
 export let secretWord = "";
-export let numRows = 6;
+export let numRows = 8;
 export let wordLength = 5;
 export let numberOfGuesses = 0;
 export let dictionary = [];
@@ -13,6 +14,9 @@ export function setCurrentGuess(guess) {
 }
 export function setGameOver(value) {
   gameOver = value;
+}
+export function setGameWon(value){
+  gameWon = value;
 }
 export function setSecretWord(word) {
   secretWord = word;

@@ -1,13 +1,17 @@
-import { guessResults } from './gameState.js';
-
-let gameNumber = 1;
+import { guessResults, gameWon } from './gameState.js';
 
 export function generateShareText(guessesUsed) {
-    let result = `I got today's Off-By-One-Dle in ${guessesUsed} ${guessesUsed > 1 ? 'tries' : 'try'}!\n\n`;
+    let result;
+    if (gameWon){
+      result = `I got today's Off-By-One-Dle in ${guessesUsed} ${guessesUsed > 1 ? 'tries' : 'try'}!\n\n`;
+    }
+    else {
+      result = `Today's Off-By-One-Dle stumped me!\n\n`;
+    }
     guessResults.forEach(row => {
         result += row.join('') + '\n';
     });
-
-    result += "\n You can play too at https://nzoam93.github.io/off-by-one-dle/"
+    result += "\nYou can play Off-By-One-Dle at https://nzoam93.github.io/off-by-one-dle"
+    console.log(result)
     return result;
 }

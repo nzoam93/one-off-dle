@@ -1,4 +1,4 @@
-import {currentGuess, secretWord, wordLength, numberOfGuesses, dictionary, setCurrentGuess, setGameOver, setNumberOfGuesses, guessResults, gameOver, gameDifficulty } from "./gameState.js"
+import {currentGuess, secretWord, wordLength, numberOfGuesses, dictionary, setCurrentGuess, setGameOver, setNumberOfGuesses, guessResults, gameOver, gameDifficulty, setGameWon, numRows } from "./gameState.js"
 import { shakeRow, showAlert } from "./utils.js"
 
 //actions at the end of the game (regardless of win or lose)
@@ -86,12 +86,14 @@ export function checkGuess(){
     //check to see if the word was right
     setNumberOfGuesses(numberOfGuesses + 1);
     if (guess === secretWord) {
-        showAlert("Congrats, you got it right!", 2000, 15)
+        showAlert("Congrats, you got it right!", 2000, 15);
+        setGameWon(true);
         endGameActions();
     }
     else {
-        if (numberOfGuesses === 6) {
-            showAlert(`The secret word was ${secretWord}`, 2000, 15)
+        if (numberOfGuesses === numRows) {
+            showAlert(`The secret word was ${secretWord}`, 2000, 15);
+            setGameWon(false);
             endGameActions();
         }
     }

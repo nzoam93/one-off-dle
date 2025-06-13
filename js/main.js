@@ -5,6 +5,8 @@ import { handleKey } from "./handleKey.js";
 import {numRows, wordLength, setSecretWord, setDictionary, numberOfGuesses, secretWord, setCurrentGuess, setNumberOfGuesses, setGameOver, setGuessResults, setGameDifficulty } from "./gameState.js";
 import { generateShareText } from "./generateShareText.js";
 import { showAlert } from "./utils.js";
+import { hasPlayedToday, markGamePlayedToday, timerInterval } from "./onceADay.js";
+
 
 // event listener - keydown
 document.addEventListener("keydown", handleKey);
@@ -23,7 +25,8 @@ newGameButtons.forEach(button => {
   button.addEventListener("click", () => {
     // Determine difficulty by checking the classList
     let difficulty = button.classList.contains("easy") ? "easy" : "hard";
-    newGame(difficulty);
+    let practice = button.classList.contains("practice") ? true : false
+    newGame(difficulty, practice);
   });
 });
 
@@ -31,11 +34,16 @@ function resetGameState(){
   // hide the info screen
   document.getElementById('infoScreen').style.display = "none";
 
+  // ready the alreadyPlayed screen
+  document.getElementById("alreadyPlayedMessage").style.display = "none";
+  clearInterval(timerInterval);
+
   // reset game state
   setCurrentGuess([]);
   setNumberOfGuesses(0);
   setGameOver(false);
   setGuessResults([]);
+  markGamePlayedToday();
 
   //reset board and keyboard
   const board = document.getElementById("board");
@@ -53,7 +61,7 @@ function resetGameState(){
 }
 
 // Game Logic
-function newGame(difficulty){
+function newGame(difficulty, practice){
   // reset to new game
   resetGameState()
 
@@ -65,14 +73,22 @@ function newGame(difficulty){
     .then(res => res.text())
     .then(text => {
       const possibleAnswers = text.split('\n').map(word => word.trim().toUpperCase());
-      let randomWord = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
-      setSecretWord(randomWord.toUpperCase())
-      console.log(secretWord)
+      if(!practice){
+        //daily word
+        const now = new Date();
+        const startDate = new Date("2025-06-09");
+        const daysSinceStart = Math.floor((now - startDate) / (1000 * 60 * 60 * 24));
+        const index = daysSinceStart % possibleAnswers.length;
+        setSecretWord(possibleAnswers[index].toUpperCase());
+        console.log(secretWord)
+      }
+      else {
+        //random word
+        let randomWord = possibleAnswers[Math.floor(Math.random() * possibleAnswers.length)];
+        setSecretWord(randomWord.toUpperCase())
+        console.log(secretWord)
+      }
   })
-
-
-
-
 
   fetch('./word-bank.txt')
     .then(res => res.text())
@@ -91,3 +107,16 @@ function newGame(difficulty){
       board.style.setProperty("--wordLength", wordLength);
     });
 }
+
+//Once a day features
+window.addEventListener("DOMContentLoaded", () => {
+  if (hasPlayedToday()) {
+    // Game was already played today — show message
+    document.getElementById("beginningInfoScreen").style.display = "none";
+    document.getElementById("alreadyPlayedMessage").style.display = "block";
+  } else {
+    // Game can be played — show game
+    document.getElementById("game").style.display = "block";
+    document.getElementById("alreadyPlayedMessage").style.display = "none";
+  }
+});
