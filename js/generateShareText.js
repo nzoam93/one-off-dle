@@ -11,7 +11,7 @@ export function generateShareText(guessesUsed) {
     guessResults.forEach(row => {
         result += row.join('') + '\n';
     });
-    result += "\nYou can play Off-By-One-Dle at https://nzoam93.github.io/off-by-one-dle"
+    result += "\nYou can play Off-By-One-Dle at https://nzoam93.github.io/one-off-dle"
     console.log(result)
     return result;
 }

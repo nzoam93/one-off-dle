@@ -6,13 +6,10 @@ function endGameActions(){
     setGameOver(true);
     document.getElementById("board-container").classList.add("blur");
     document.getElementById("shareBtn").style.display = "block";
-    document.querySelectorAll(".newGameBtn").forEach(button => {
-        button.style.display = "block";
-    });
+    document.getElementById('postGameOverlay').classList.remove('hidden');
 }
 
 export function checkGuess(){
-    let emojiRow = []
     let guess = currentGuess.join("")
     const letterCount = {}
 
@@ -50,10 +47,6 @@ export function checkGuess(){
         const square = document.getElementById(`square-${numberOfGuesses}-${i}`);
         const letter = currentGuess[i];
         const keyButton = document.querySelector(`button[data-key="${letter}"]`);
-        if (letter === secretWord[i]){
-            //update the emojiRow
-            emojiRow.push("🟩")
-        }
         if (letter !== secretWord[i]) {
             if (secretWord.includes(letter) && letterCount[letter] > 0){
                 square.classList.add("half-right");
@@ -65,8 +58,6 @@ export function checkGuess(){
                     keyButton.classList.add("half-right");
                 }
 
-                //update the emojiRow
-                emojiRow.push("🟨")
             }
             else {
                 square.classList.add("wrong");
@@ -75,13 +66,9 @@ export function checkGuess(){
                 if (keyButton && !keyButton.classList.contains("correct") && !keyButton.classList.contains("half-right")) {
                     keyButton.classList.add("wrong");
                 }
-
-                //update the emojiRow
-                emojiRow.push("⬛")
             }
         }
     }
-    guessResults.push(emojiRow)
 
     //check to see if the word was right
     setNumberOfGuesses(numberOfGuesses + 1);
@@ -106,6 +93,22 @@ export function checkGuess(){
             offByOneHard();
         }
     }
+
+    // Generate emojis based on current visual states after offByOne
+    let emojiRow = [];
+    const rowIndex = numberOfGuesses;
+    for (let i = 0; i < wordLength; i++) {
+        const square = document.getElementById(`square-${rowIndex - 1}-${i}`);
+        if (square.classList.contains("correct")) {
+            emojiRow.push("🟩");
+        } else if (square.classList.contains("half-right")) {
+            emojiRow.push("🟨");
+        } else {
+            emojiRow.push("⬛");
+        }
+    }
+    guessResults.push(emojiRow);
+
 
     //reset the guess array
     setCurrentGuess([]);

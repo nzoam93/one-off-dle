@@ -69,6 +69,59 @@ body {
   margin-top: 9px;
 }
 
+/* Post Game Buttons  */
+#postGameOverlay {
+  position: absolute;
+  top: 15vh;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #635d5d;
+  padding: 20px;
+  gap: 16px;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 200px;
+  z-index: 10;
+}
+
+#postGameOverlay.hidden {
+  display: none;
+}
+
+#postGameOverlay button {
+  width: 180px;
+  height: 45px;
+  font-size: 18px;
+  border: none;
+  border-radius: 50px;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#shareBtn img {
+    vertical-align: middle;
+    height: 18px;
+    width: 18px;
+    margin-left: 5px;
+}
+
+#shareBtn{
+  background-color:#4caf50;
+}
+
+#shareBtn:hover{
+    background-color: #538d4e;
+}
+
+.infoScreenButton:hover, .postGameBtn:hover{
+    background-color: #947f1f;
+}
+
 /* board styling */
 #board {
     margin-top: 15px;
@@ -157,53 +210,6 @@ body {
 
 .shake {
   animation: shake 0.4s ease-in-out;
-}
-
-/* share button  */
-#post-game-buttons-container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#shareBtn{
-    position: fixed;
-    top: 22vh;
-    height: 35px;
-    width: 160px;
-    background-color: #58a351;
-    color: white;
-    border-radius: 50px;
-    cursor: pointer;
-    font-size: 16px;
-    border: none;
-    z-index: 10001;
-}
-
-.postGameBtn{
-  position: fixed;
-}
-
-.easy{
-      top: 28vh;
-}
-
-.hard{
-      top: 34vh;
-}
-
-#shareBtn img {
-    vertical-align: middle;
-    height: 18px;
-    width: 18px;
-}
-
-#shareBtn:hover{
-    background-color: #538d4e;
-}
-
-.newGameBtn:hover{
-    background-color: #7b6d2c;
 }
 
 /* alert  */

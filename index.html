@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <!-- added the above max-scale to prevent from tapping to zoom, which was annoying -->
-    <title>Wordle</title>
+    <title>One-Off-Dle</title>
     <script type="module" src="./js/main.js"></script>
     <link rel="stylesheet" href="./styles.css"/>
     <link rel="icon" href="./imgs/favicon.ico" type="image/x-icon" />
@@ -23,10 +23,13 @@
     <div id="infoScreen">
         <div id="beginningInfoScreen">
             <h1 class="title">
-                Off-By-One Wordle
+                One-Off Wordle
             </h1>
             <p class="instruction">
-                Same game rules as Wordle, but each clue has one misleading answer (i.e. it shows it as yellow but it's really green)
+                Just like Wordle except one random tile lies each guess: Yellow might be green, green might be gray, etc.
+            </p>
+            <p class="instruction">
+                Test your logic skills and see if you can guess the word within 8 tries
             </p>
             <div class="buttons">
                 <button class="newGameBtn infoScreenButton easy">Start Game</button>
@@ -36,7 +39,7 @@
         <div id="alreadyPlayedMessage" style="display: none;">
             <div id="prev-data"></div>
             <h1 id="countdownTimer">
-                Next Off-By-One-Dle in: <br><div id="timer"></div>
+                Next One-Off-Dle in: <br><div id="timer"></div>
             </h1>
             <p class="instruction" style="text-align: left;">Can't wait? Continue play in practice mode!</p>
             <p class="instruction" style="text-align: left;">
@@ -57,13 +60,13 @@
             <div id="board"></div>
             <div id="keyboard"></div>
         </div>
-        <div id="post-game-buttons-container">
-            <button id="shareBtn" style="display:none;">
+        <div id="postGameOverlay" class="hidden">
+            <button id="shareBtn">
                 Share
                 <img src="./imgs/share-icon.png" alt="Share">
             </button>
-            <button class="newGameBtn easy practice postGameBtn" style="display: none;">Practice: Easy</button>
-            <button class="newGameBtn hard practice postGameBtn" style="display: none;">Practice: Hard</button>
+            <button class="newGameBtn easy practice postGameBtn">Practice: Easy</button>
+            <button class="newGameBtn hard practice postGameBtn">Practice: Hard</button>
         </div>
     </div>
 </body>

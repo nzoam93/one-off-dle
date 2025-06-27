@@ -52,10 +52,7 @@ function resetGameState(){
   keyboardContainer.innerHTML = "";
 
   //hide the buttons again
-  document.getElementById("shareBtn").style.display = "none";
-  document.querySelectorAll(".newGameBtn").forEach(button => {
-    button.style.display = "none";
-  });
+  document.getElementById('postGameOverlay').classList.add('hidden');
   //remove board blur
   document.getElementById("board-container").classList.remove("blur");
 }
